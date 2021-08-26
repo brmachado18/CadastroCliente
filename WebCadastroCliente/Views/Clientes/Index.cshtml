@@ -1,0 +1,104 @@
+﻿@model IEnumerable<WebCadastroCliente.Models.Cliente>
+
+@{
+    //UTILIZEI PARA PAGINAÇÃO E PESQUISA UMA DATA TABLE, QUE É UM RECURSO QUE TRAS AGILIDADE NO DESENVOLVIMENTO
+    
+    ViewData["Title"] = "Index";
+
+    // ESSE CODIGO FAZ PARTE DAS MENSAGENS DE ERRO E SUCESSO PARA SE DAR UM RETORNO AO USUÁRIO
+    var mensagemErro = TempData["Error"] != null ? TempData["Error"].ToString() : string.Empty;
+    var mensagemSucesso = TempData["Sucesso"] != null ? TempData["Sucesso"].ToString() : string.Empty;
+}
+
+<h1>Clientes D1</h1>
+
+<p>
+    <a asp-action="Create">
+        <button type="button" class="btn-success btn-sm">
+            <i class="bi bi-person-plus-fill"></i> Novo Cliente
+        </button>
+    </a>
+</p>
+
+@* DIV PARA DEMONSTRAÇÃO MENSAGENS DO BACK-END *@
+<div class="row">
+    <div class="col-md-12">
+        <br />
+        @if (!string.IsNullOrEmpty(mensagemErro))
+        {
+            <div class="alert alert-danger">
+                <a class="close" data-dismiss="alert"> × </a>
+                <p>
+                    @mensagemErro
+                </p>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(mensagemSucesso))
+        {
+            <div class="alert alert-success">
+                <a class="close" data-dismiss="alert"> × </a>
+                <p>
+                    @mensagemSucesso
+                </p>
+            </div>
+        }
+    </div>
+</div>
+
+<table id="myDataTable" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataNascimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CPF)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RG)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataNascimento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CPF)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RG)
+            </td>
+            <td>
+                <div class="btn-group" role="group">
+                    <a asp-action="Edit"  asp-route-id="@item.ID">
+                        <button type="button" class="btn-warning btn-sm">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.ID">
+                        <button type="button" class="btn-info btn-sm">
+                            <i class="bi bi-info-circle-fill"></i>
+                        </button>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.ID">
+                        <button type="button" class="btn-danger btn-sm">
+                            <i class="bi bi-person-x-fill"></i>
+                        </button>
+                    </a>
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

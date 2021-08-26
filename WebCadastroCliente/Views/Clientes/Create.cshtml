@@ -1,0 +1,227 @@
+﻿@model WebCadastroCliente.Models.Cliente
+
+@{
+    // REALIZEI UMA INICIALIZAÇÃO MANUAL PARA GERAR 2 CAMPOS DE TELEFONE E ENDERÇO E TESTAR O BACK-END
+    // ESTA E TODOAS OUTRAS VIEWS FORAM GERADAS COM AUXILIO DO VISUAL STUDIO JUNTO COM O CONTROLLER. 
+    // FIZ ALGUMA MUDANÇAS PONTUAIS PARA FORMATAR UM INTERFACE QUE CONSIDEREI MAIS AGRADAVEL.
+
+    ViewData["Title"] = "Cadastrar Cliente";
+
+    Model.Enderecos = new List<Endereco>() { new Endereco(), new Endereco() };
+    Model.Telefones = new List<Telefone>() { new Telefone(), new Telefone() };
+
+    var mensagemErro = TempData["Error"] != null ? TempData["Error"].ToString() : string.Empty;
+}
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <h3 class="col-md-2">Cliente</h3>
+    </div>
+    <div class="row">
+
+        <div class="col-md-12">
+            <br />
+            @if (!string.IsNullOrEmpty(mensagemErro))
+            {
+                <div class="alert alert-danger">
+                    <a class="close" data-dismiss="alert"> × </a>
+                    <p>
+                        @mensagemErro
+                    </p>
+                </div>
+            }
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="DataNascimento" class="control-label"></label>
+                <input asp-for="DataNascimento" class="form-control" />
+                <span asp-validation-for="DataNascimento" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="CPF" class="control-label"></label>
+                <input asp-for="CPF" class="form-control" />
+                <span asp-validation-for="CPF" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="RG" class="control-label"></label>
+                <input asp-for="RG" class="form-control" />
+                <span asp-validation-for="RG" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h4 class="col-md-2">Redes Sociais</h4>
+    </div>
+    <hr />
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="RedesSociais.Facebook" class="control-label"></label>
+                <input asp-for="RedesSociais.Facebook" class="form-control" />
+                <span asp-validation-for="RedesSociais.Facebook" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="RedesSociais.LinkedIn" class="control-label"></label>
+                <input asp-for="RedesSociais.LinkedIn" class="form-control" />
+                <span asp-validation-for="RedesSociais.LinkedIn" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="RedesSociais.Twitter" class="control-label"></label>
+                <input asp-for="RedesSociais.Twitter" class="form-control" />
+                <span asp-validation-for="RedesSociais.Twitter" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="RedesSociais.Instagram" class="control-label"></label>
+                <input asp-for="RedesSociais.Instagram" class="form-control" />
+                <span asp-validation-for="RedesSociais.Instagram" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h3 class="col-md-2">Contatos</h3>
+    </div>
+    <hr />
+    @for (var i = 0; i < Model.Telefones.Count; i++)
+    {
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="@Model.Telefones[i].Numero" class="control-label"></label>
+                    <input asp-for="@Model.Telefones[i].Numero" id="Telefone" class="form-control" />
+                    <span asp-validation-for="@Model.Telefones[i].Numero" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label asp-for="@Model.Telefones[i].Identificador" class="control-label"></label>
+                    <input asp-for="@Model.Telefones[i].Identificador" class="form-control" />
+                    <span asp-validation-for="@Model.Telefones[i].Identificador" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="form-group">
+        <input type="button" value="+ Telefone" class="btn-sm btn-primary" onclick="AdicionarTelefone();" />
+    </div>
+
+    <div class="row">
+        <h4 class="col-md-2">Endereços</h4>
+    </div>
+    <hr />
+    @for (var i = 0; i < Model.Enderecos.Count; i++)
+    {
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="@Model.Enderecos[i].Cep" class="control-label"></label>
+                    <input asp-for="@Model.Enderecos[i].Cep" id="Cep" class="form-control" />
+                    <span asp-validation-for="@Model.Enderecos[i].Cep" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="@Model.Enderecos[i].Logradouro" class="control-label"></label>
+                    <input asp-for="@Model.Enderecos[i].Logradouro" class="form-control" />
+                    <span asp-validation-for="@Model.Enderecos[i].Logradouro" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <label asp-for="@Model.Enderecos[i].Numero" class="control-label"></label>
+                    <input asp-for="@Model.Enderecos[i].Numero" class="form-control" />
+                    <span asp-validation-for="@Model.Enderecos[i].Numero" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="@Model.Enderecos[i].Complemento" class="control-label"></label>
+                    <input asp-for="@Model.Enderecos[i].Complemento" class="form-control" />
+                    <span asp-validation-for="@Model.Enderecos[i].Complemento" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="@Model.Enderecos[i].Bairro" class="control-label"></label>
+                    <input asp-for="@Model.Enderecos[i].Bairro" class="form-control" />
+                    <span asp-validation-for="@Model.Enderecos[i].Bairro" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="@Model.Enderecos[i].Cidade" class="control-label"></label>
+                    <input asp-for="@Model.Enderecos[i].Cidade" class="form-control" />
+                    <span asp-validation-for="@Model.Enderecos[i].Cidade" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="@Model.Enderecos[i].Estado" class="control-label"></label>
+                    <select asp-for="@Model.Enderecos[i].Estado" class="form-control selectpicker" data-live-search="true" asp-items="ViewBag.Estados"></select>
+                    @*<input asp-for="@Model.Enderecos[i].Estado" class="form-control" />*@
+                    <span asp-validation-for="@Model.Enderecos[i].Estado" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="form-group">
+        <input type="button" value=" + Endereço" class="btn-sm btn-primary" onclick="AdicionarEndereco();" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Gravar" class="btn-sm btn-primary" />
+    </div>
+
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script language="javascript">
+
+    $(document).ready(function () {
+        $("#CPF").mask('000.000.000-00');
+        $("#Cep").mask('00000-000');
+        $("#Telefone").mask('(00) 0000-00009');
+    });
+        
+
+    function AdicionarTelefone() {
+        alert("Adicionar Telefone");
+    }
+
+    function AdicionarEndereco() {
+        alert("Adicionar Endereço");
+    }
+</script>
+}
